@@ -1,6 +1,8 @@
 import { createIssueSchema } from "@/app/validationSchemas";
 import prisma from "@/prisma/client";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
+import { authOptions } from "../../auth/[...nextauth]/route";
 
 interface Props {
   params: { id: string };
@@ -35,6 +37,12 @@ export async function DELETE(req: NextRequest, { params }: Props) {
   const issue = await prisma.issue.findUnique({
     where: { id: parseInt(params.id) },
   });
+
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user) {
+    return NextResponse.json({ message: "Not authenticated" }, { status: 401 });
+  }
 
   if (!issue) {
     return NextResponse.json({ message: "Issue not found" }, { status: 404 });

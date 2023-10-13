@@ -8,7 +8,7 @@ const IssuesPage = async () => {
   const issues = await prisma.issue.findMany();
 
   return (
-    <div>
+    <>
       <div className="mb-5">
         <Button className=" text-white">
           <NextLink href="/issues/new">New Issue</NextLink>
@@ -46,7 +46,7 @@ const IssuesPage = async () => {
           })}
         </Table.Body>
       </Table.Root>
-    </div>
+    </>
   );
 };
 
