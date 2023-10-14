@@ -20,17 +20,17 @@ const NavBar = () => {
 
   return (
     <nav className="mb-5 flex h-14 items-center justify-between gap-6 border-b px-5">
-      <Link href={"/"}>
-        <PiBugDuotone className="h-7 w-7" />
-      </Link>
       <div className="flex items-center gap-8">
-        <ul className="flex items-center gap-6 font-semibold">
+        <Link href={"/"}>
+          <PiBugDuotone className="h-7 w-7" />
+        </Link>
+        <ul className="flex items-center gap-6">
           {links.map(({ label, href }) => {
             return (
               <li key={label}>
                 <Link
                   className={classnames({
-                    "text-zinc-900": href === pathname,
+                    "font-semibold text-zinc-900": href === pathname,
                     "text-zinc-500": href !== pathname,
                     "transition-colors hover:text-zinc-800": true,
                   })}
@@ -42,21 +42,22 @@ const NavBar = () => {
             );
           })}
         </ul>
-        {status === "unauthenticated" && (
-          <Button
-            onClick={() => {
-              signIn("google", {
-                callbackUrl: "/",
-              });
-            }}
-          >
-            Sign in
-          </Button>
-        )}
-        {status === "authenticated" && (
-          <DropdownMenu.Root>
-            <DropdownMenu.Trigger>
-              {/* <Avatar
+      </div>
+      {status === "unauthenticated" && (
+        <Button
+          onClick={() => {
+            signIn("google", {
+              callbackUrl: "/",
+            });
+          }}
+        >
+          Sign in
+        </Button>
+      )}
+      {status === "authenticated" && (
+        <DropdownMenu.Root>
+          <DropdownMenu.Trigger>
+            {/* <Avatar
                 size={"3"}
                 radius="full"
                 src={session.user!.image!}
@@ -64,32 +65,31 @@ const NavBar = () => {
                 className="cursor-pointer"
                 referrerPolicy="no-referrer"
               /> */}
-              <div>
-                <Image
-                  src={session.user!.image!}
-                  alt="Picture of the author"
-                  height={30}
-                  width={30}
-                  className="cursor-pointer rounded-full"
-                />
-              </div>
-              {/* <h1>Open Me</h1> */}
-            </DropdownMenu.Trigger>
-            <DropdownMenu.Content>
-              <DropdownMenu.Label>{session.user?.email}</DropdownMenu.Label>
-              <DropdownMenu.Item>
-                <Text
-                  onClick={() => {
-                    signOut();
-                  }}
-                >
-                  Sign out
-                </Text>
-              </DropdownMenu.Item>
-            </DropdownMenu.Content>
-          </DropdownMenu.Root>
-        )}
-      </div>
+            <div>
+              <Image
+                src={session.user!.image!}
+                alt="Picture of the author"
+                height={30}
+                width={30}
+                className="cursor-pointer rounded-full"
+              />
+            </div>
+            {/* <h1>Open Me</h1> */}
+          </DropdownMenu.Trigger>
+          <DropdownMenu.Content>
+            <DropdownMenu.Label>{session.user?.email}</DropdownMenu.Label>
+            <DropdownMenu.Item>
+              <Text
+                onClick={() => {
+                  signOut();
+                }}
+              >
+                Sign out
+              </Text>
+            </DropdownMenu.Item>
+          </DropdownMenu.Content>
+        </DropdownMenu.Root>
+      )}
     </nav>
   );
 };

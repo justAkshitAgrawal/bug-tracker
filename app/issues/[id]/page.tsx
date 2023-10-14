@@ -8,6 +8,7 @@ import ReactMarkdown from "react-markdown";
 import DeleteModal from "../components/DeleteModal";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import SelectAssignee from "@/components/SelectAssignee";
 
 interface Props {
   params: { id: string };
@@ -25,26 +26,30 @@ const IssueIdPage = async ({ params }: Props) => {
   const session = await getServerSession(authOptions);
 
   return (
-    <Grid columns={{ initial: "1", md: "2" }} gap={"5"}>
-      <Box>
+    <Grid columns={{ initial: "1", md: "3" }} gap={"5"} mx={"5"}>
+      <Box className=" col-span-2 w-full">
         <Heading>{issue.title}</Heading>
         <Flex mt={"2"} gap={"3"}>
           <IssueStatusBadge status={issue.status} />
           <Text>{issue.createdAt?.toLocaleDateString("en-US")}</Text>
         </Flex>
-        <Card className="prose" mt={"2"}>
-          <ReactMarkdown>{issue.description}</ReactMarkdown>
-        </Card>
+        <ReactMarkdown className=" mt-4 min-h-[20vh] rounded-lg border border-zinc-200 p-5">
+          {issue.description}
+        </ReactMarkdown>
       </Box>
       {session?.user && (
-        <Box className="flex space-x-5">
+        <div className="flex max-w-[10vw] flex-col gap-5 ">
+          <SelectAssignee
+            issueId={issue.id}
+            assignedToUserId={issue.assignedToUserId}
+          />
           <Button>
             <Pencil2Icon />
             <Link href={`/issues/${issue.id}/edit`}>Edit Issue</Link>
           </Button>
 
           <DeleteModal issue={{ id: issue.id }} />
-        </Box>
+        </div>
       )}
     </Grid>
   );
