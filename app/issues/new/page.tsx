@@ -39,7 +39,8 @@ const NewIssuePage = () => {
         try {
           setIsSubmitting(true);
           await axios.post("/api/issues", data);
-          router.push("/issues ");
+          router.push("/issues");
+          router.refresh();
         } catch (error: any) {
           console.log(error);
           toast.error("Something went wrong");
