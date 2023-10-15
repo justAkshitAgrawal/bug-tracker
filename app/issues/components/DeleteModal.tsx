@@ -20,7 +20,7 @@ const DeleteModal = ({ issue }: Props) => {
     <div>
       <AlertDialog.Root>
         <AlertDialog.Trigger>
-          <Button color="red" className="w-full cursor-pointer ">
+          <Button color="tomato" className="w-full cursor-pointer ">
             <TrashIcon />
             Delete Issue
           </Button>
@@ -49,7 +49,7 @@ const DeleteModal = ({ issue }: Props) => {
                     toast.error(error.response.data.message);
                   }
                 }}
-                color="red"
+                color="tomato"
               >
                 Delete Issue
               </Button>
